@@ -148,6 +148,8 @@ enum Option : int {
     DLCLOSE_MODULE_LIBRARY = 1,
 };
 
+// All API functions will stop working after post[XXX]Specialize as Zygisk will be unloaded
+// from the specialized process afterwards.
 struct Api {
 
     // Connect to a root companion process and get a Unix domain socket for IPC.
@@ -159,6 +161,9 @@ struct Api {
     // function that would be called in the root process with REGISTER_ZYGISK_COMPANION(func).
     // Another good use case for a companion process is that if you want to share some resources
     // across multiple processes, hold the resources in the companion process and pass it over.
+    //
+    // The root companion process is ABI aware; that is, when calling this function from a 32-bit
+    // process, you will be connected to a 32-bit companion process, and vice versa for 64-bit.
     //
     // Returns a file descriptor to a socket that is connected to the socket passed to your
     // module's companion request handler. Returns -1 if the connection attempt failed.
@@ -266,23 +271,23 @@ void entry_impl(api_table *table, JNIEnv *env) {
 
 } // namespace internal
 
-int Api::connectCompanion() {
-    return impl->connectCompanion(impl->_this);
+inline int Api::connectCompanion() {
+    return impl->connectCompanion ? impl->connectCompanion(impl->_this) : -1;
 }
-void Api::setOption(Option opt) {
-    impl->setOption(impl->_this, opt);
+inline void Api::setOption(Option opt) {
+    if (impl->setOption) impl->setOption(impl->_this, opt);
 }
-void Api::hookJniNativeMethods(JNIEnv *env, const char *className, JNINativeMethod *methods, int numMethods) {
-    impl->hookJniNativeMethods(env, className, methods, numMethods);
+inline void Api::hookJniNativeMethods(JNIEnv *env, const char *className, JNINativeMethod *methods, int numMethods) {
+    if (impl->hookJniNativeMethods) impl->hookJniNativeMethods(env, className, methods, numMethods);
 }
-void Api::pltHookRegister(const char *regex, const char *symbol, void *newFunc, void **oldFunc) {
-    impl->pltHookRegister(regex, symbol, newFunc, oldFunc);
+inline void Api::pltHookRegister(const char *regex, const char *symbol, void *newFunc, void **oldFunc) {
+    if (impl->pltHookRegister) impl->pltHookRegister(regex, symbol, newFunc, oldFunc);
 }
-void Api::pltHookExclude(const char *regex, const char *symbol) {
-    impl->pltHookExclude(regex, symbol);
+inline void Api::pltHookExclude(const char *regex, const char *symbol) {
+    if (impl->pltHookExclude) impl->pltHookExclude(regex, symbol);
 }
-bool Api::pltHookCommit() {
-    return impl->pltHookCommit();
+inline bool Api::pltHookCommit() {
+    return impl->pltHookCommit != nullptr && impl->pltHookCommit();
 }
 
 } // namespace zygisk

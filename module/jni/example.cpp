@@ -36,20 +36,26 @@ private:
     void preSpecialize(const char *process) {
         // Demonstrate connecting to to companion process
         // We ask the companion for a random number
-        int r = 0;
+        unsigned r = 0;
         int fd = api->connectCompanion();
         read(fd, &r, sizeof(r));
         close(fd);
         LOGD("example: process=[%s], r=[%u]\n", process, r);
+
+        // Since we do not hook any functions, we should let Zygisk dlclose ourselves
+        api->setOption(zygisk::Option::DLCLOSE_MODULE_LIBRARY);
     }
 
 };
 
+static int urandom = -1;
+
 static void companion_handler(int i) {
-    int fd = open("/dev/urandom", O_RDONLY);
-    int r;
-    read(fd, &r, sizeof(r));
-    close(fd);
+    if (urandom < 0) {
+        urandom = open("/dev/urandom", O_RDONLY);
+    }
+    unsigned r;
+    read(urandom, &r, sizeof(r));
     LOGD("example: companion r=[%u]\n", r);
     write(i, &r, sizeof(r));
 }
