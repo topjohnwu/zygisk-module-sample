@@ -6,9 +6,13 @@ This repository is archived because it is meant to be read-only; the project is 
 
 ## API
 
-- The canonical URL of the public Zygisk API is [module/jni/zygisk.hpp](https://github.com/topjohnwu/zygisk-module-sample/blob/master/module/jni/zygisk.hpp).
+- The canonical URL of the latest public Zygisk API is [module/jni/zygisk.hpp](https://github.com/topjohnwu/zygisk-module-sample/blob/master/module/jni/zygisk.hpp).
 - The header file is self documented; directly refer to the header source code for all Zygisk API details.
 - Magisk is committed to maintain backwards compatibility forever. That is, whenever there is an API update for Zygisk in a newer Magisk version, Magisk can always load Zygisk modules built for an older Zygisk API.
+
+| Zygisk API | Minimal Magisk |
+| :--------: | :------------: |
+|     2      |     24000      |
 
 ## Notes
 
@@ -34,12 +38,12 @@ This repository is archived because it is meant to be read-only; the project is 
 module_id
 ├── module.prop
 └── zygisk
-    ├── arm64-v8a.so
-    ├── armeabi-v7a.so
-    ├── x86.so
-    └── x86_64.so
+    ├── arm64-v8a.so
+    ├── armeabi-v7a.so
+    ├── x86.so
+    └── x86_64.so
 ```
 
 ## License
 
-Although the main Magisk project is licensed under GPLv3, the Zygisk API and its headers are not. Every file in this repository is released to the public domain, so you don't have to worry about any licensing issues while developing Zygisk modules. You can create a closed source module, or publish your source code under any open source license you prefer; there is no restrictions at all.
+Although the main Magisk project is licensed under GPLv3, the Zygisk API and its headers are not. Every file in this repository is released to the public domain, so you don't have to worry about any licensing issues while developing Zygisk modules.
