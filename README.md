@@ -8,11 +8,12 @@ This repository is archived because it is meant to be read-only; the project is 
 
 - The canonical URL of the latest public Zygisk API is [module/jni/zygisk.hpp](https://github.com/topjohnwu/zygisk-module-sample/blob/master/module/jni/zygisk.hpp).
 - The header file is self documented; directly refer to the header source code for all Zygisk API details.
-- Magisk is committed to maintain backwards compatibility forever. That is, whenever there is an API update for Zygisk in a newer Magisk version, Magisk can always load Zygisk modules built for an older Zygisk API.
+- Magisk is committed to maintain backwards compatibility forever. That is, whenever there is an API update for Zygisk in a newer Magisk version, Magisk can always load Zygisk modules built for an older Zygisk API. If you do not need the new features introduced in newer API versions, feel free to stay on the older API version to maintain maximum compatibility.
 
 | Zygisk API | Minimal Magisk |
 | :--------: | :------------: |
 |     2      |     24000      |
+|     3      |     24300      |
 
 ## Notes
 

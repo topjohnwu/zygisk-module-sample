@@ -5,7 +5,7 @@
 
 #include <jni.h>
 
-#define ZYGISK_API_VERSION 2
+#define ZYGISK_API_VERSION 3
 
 /*
 
@@ -94,6 +94,7 @@ struct AppSpecializeArgs {
     jint &gid;
     jintArray &gids;
     jint &runtime_flags;
+    jobjectArray &rlimits;
     jint &mount_external;
     jstring &se_info;
     jstring &nice_name;
@@ -101,6 +102,7 @@ struct AppSpecializeArgs {
     jstring &app_data_dir;
 
     // Optional arguments. Please check whether the pointer is null before de-referencing
+    jintArray *const fds_to_ignore;
     jboolean *const is_child_zygote;
     jboolean *const is_top_app;
     jobjectArray *const pkg_data_info_list;
