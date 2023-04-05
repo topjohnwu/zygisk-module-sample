@@ -1,3 +1,17 @@
+/* Copyright 2022-2023 John "topjohnwu" Wu
+ *
+ * Permission to use, copy, modify, and/or distribute this software for any
+ * purpose with or without fee is hereby granted.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+ * REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+ * AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+ * INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ * LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+ * OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+ * PERFORMANCE OF THIS SOFTWARE.
+ */
+
 #include <cstdlib>
 #include <unistd.h>
 #include <fcntl.h>
@@ -9,7 +23,7 @@ using zygisk::Api;
 using zygisk::AppSpecializeArgs;
 using zygisk::ServerSpecializeArgs;
 
-#define LOGD(...) __android_log_print(ANDROID_LOG_DEBUG, "Magisk", __VA_ARGS__)
+#define LOGD(...) __android_log_print(ANDROID_LOG_DEBUG, "MyModule", __VA_ARGS__)
 
 class MyModule : public zygisk::ModuleBase {
 public:
@@ -40,7 +54,7 @@ private:
         int fd = api->connectCompanion();
         read(fd, &r, sizeof(r));
         close(fd);
-        LOGD("example: process=[%s], r=[%u]\n", process, r);
+        LOGD("process=[%s], r=[%u]\n", process, r);
 
         // Since we do not hook any functions, we should let Zygisk dlclose ourselves
         api->setOption(zygisk::Option::DLCLOSE_MODULE_LIBRARY);
@@ -56,9 +70,10 @@ static void companion_handler(int i) {
     }
     unsigned r;
     read(urandom, &r, sizeof(r));
-    LOGD("example: companion r=[%u]\n", r);
+    LOGD("companion r=[%u]\n", r);
     write(i, &r, sizeof(r));
 }
 
+// Register our module class and the companion handler function
 REGISTER_ZYGISK_MODULE(MyModule)
 REGISTER_ZYGISK_COMPANION(companion_handler)
