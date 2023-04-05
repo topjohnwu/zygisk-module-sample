@@ -8,12 +8,14 @@ This repository is archived because it is meant to be read-only; the project is 
 
 - The canonical URL of the latest public Zygisk API is [module/jni/zygisk.hpp](https://github.com/topjohnwu/zygisk-module-sample/blob/master/module/jni/zygisk.hpp).
 - The header file is self documented; directly refer to the header source code for all Zygisk API details.
-- Magisk is committed to maintain backwards compatibility forever. That is, whenever there is an API update for Zygisk in a newer Magisk version, Magisk can always load Zygisk modules built for an older Zygisk API. If you do not need the new features introduced in newer API versions, feel free to stay on the older API version to maintain maximum compatibility.
+- Magisk is committed to maintain backwards compatibility forever. That is, whenever there is an API update for Zygisk in a newer Magisk version, Magisk can always load Zygisk modules built for an older Zygisk API.
+- If you do not need the new features introduced in newer API versions, it's perfectly fine to stay on the older API version to maintain maximum compatibility.
 
-| Zygisk API | Minimal Magisk |
-| :--------: | :------------: |
-|     2      |     24000      |
-|     3      |     24300      |
+|                                        Zygisk API                                         | Minimal Magisk |                                      Diff                                      |
+| :---------------------------------------------------------------------------------------: | :------------: | :----------------------------------------------------------------------------: |
+| [v4](https://github.com/topjohnwu/zygisk-module-sample/blob/master/module/jni/zygisk.hpp) |     26000      | [v3..v4](https://github.com/topjohnwu/zygisk-module-sample/compare/v3..master) |
+|   [v3](https://github.com/topjohnwu/zygisk-module-sample/blob/v3/module/jni/zygisk.hpp)   |     24300      |   [v2..v3](https://github.com/topjohnwu/zygisk-module-sample/compare/v2..v3)   |
+|   [v2](https://github.com/topjohnwu/zygisk-module-sample/blob/v2/module/jni/zygisk.hpp)   |     24000      |                                      N/A                                       |
 
 ## Notes
 
@@ -47,4 +49,4 @@ module_id
 
 ## License
 
-Although the main Magisk project is licensed under GPLv3, the Zygisk API and its headers are not. Every file in this repository is released to the public domain, so you don't have to worry about any licensing issues while developing Zygisk modules.
+Although the main Magisk project is licensed under GPLv3, the Zygisk API and its headers are not. Every source code in this repository is released under 0BSD (a public domain equivalent license), so you don't have to worry about any licensing issues while developing Zygisk modules.
